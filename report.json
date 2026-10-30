@@ -1,0 +1,529 @@
+{
+    "unity": "6000.3.10f1",
+    "pipeline": "UniversalRenderPipelineAsset",
+    "models": [
+        {
+            "name": "cli-p2-1",
+            "imported": true,
+            "importSeconds": 0.0877181,
+            "vertices": 10834,
+            "triangles": 21309,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 0.99951171875,
+            "boundsSize": "(0.360, 1.000, 0.851)",
+            "textures": [],
+            "textureMemoryBytes": 0,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "cli-p2-2",
+            "imported": true,
+            "importSeconds": 0.011242,
+            "vertices": 10707,
+            "triangles": 21105,
+            "meshes": 1,
+            "materials": 0,
+            "shaders": [],
+            "heightUnits": 0.99951171875,
+            "boundsSize": "(0.435, 1.000, 0.851)",
+            "textures": [],
+            "textureMemoryBytes": 0,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "cli-p2-3",
+            "imported": true,
+            "importSeconds": 0.0124236,
+            "vertices": 10772,
+            "triangles": 21421,
+            "meshes": 1,
+            "materials": 0,
+            "shaders": [],
+            "heightUnits": 0.99951171875,
+            "boundsSize": "(0.386, 1.000, 0.850)",
+            "textures": [],
+            "textureMemoryBytes": 0,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "h31-1",
+            "imported": true,
+            "importSeconds": 0.1636638,
+            "vertices": 12658,
+            "triangles": 19894,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 1.0,
+            "boundsSize": "(0.381, 1.000, 0.877)",
+            "textures": [
+                {
+                    "name": "Color_49914d1f-33ef-4970-88f6-b6ff597b891b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_49914d1f-33ef-4970-88f6-b6ff597b891b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_49914d1f-33ef-4970-88f6-b6ff597b891b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "h31-2",
+            "imported": true,
+            "importSeconds": 0.16437569999999999,
+            "vertices": 11951,
+            "triangles": 19328,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 1.0,
+            "boundsSize": "(0.386, 1.000, 0.871)",
+            "textures": [
+                {
+                    "name": "Color_b83ffef2-3891-44ba-a5d3-3e8aa2414f21",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_b83ffef2-3891-44ba-a5d3-3e8aa2414f21",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_b83ffef2-3891-44ba-a5d3-3e8aa2414f21",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "h31-3",
+            "imported": true,
+            "importSeconds": 0.1681841,
+            "vertices": 11907,
+            "triangles": 18899,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 1.0,
+            "boundsSize": "(0.375, 1.000, 0.875)",
+            "textures": [
+                {
+                    "name": "Color_96fdabd0-4804-440d-9a6f-d30e935de59b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_96fdabd0-4804-440d-9a6f-d30e935de59b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_96fdabd0-4804-440d-9a6f-d30e935de59b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "h31front-1",
+            "imported": true,
+            "importSeconds": 0.16690349999999999,
+            "vertices": 12426,
+            "triangles": 19647,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 1.0,
+            "boundsSize": "(0.345, 1.000, 0.889)",
+            "textures": [
+                {
+                    "name": "Color_0a5f29b8-f06a-40e0-b4d8-fa4a891be113",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_0a5f29b8-f06a-40e0-b4d8-fa4a891be113",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_0a5f29b8-f06a-40e0-b4d8-fa4a891be113",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "h31front-2",
+            "imported": true,
+            "importSeconds": 0.1682979,
+            "vertices": 12143,
+            "triangles": 19260,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 1.0,
+            "boundsSize": "(0.387, 1.000, 0.884)",
+            "textures": [
+                {
+                    "name": "Color_685d4ebf-7890-4441-958f-e043f8458773",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_685d4ebf-7890-4441-958f-e043f8458773",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_685d4ebf-7890-4441-958f-e043f8458773",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "h31front-3",
+            "imported": true,
+            "importSeconds": 0.1557583,
+            "vertices": 12418,
+            "triangles": 19290,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 1.0,
+            "boundsSize": "(0.388, 1.000, 0.881)",
+            "textures": [
+                {
+                    "name": "Color_082fb15f-dc56-4771-92db-49ebc745a26b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_082fb15f-dc56-4771-92db-49ebc745a26b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_082fb15f-dc56-4771-92db-49ebc745a26b",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "h31front-4",
+            "imported": true,
+            "importSeconds": 0.15079869999999999,
+            "vertices": 12238,
+            "triangles": 19118,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 1.0,
+            "boundsSize": "(0.358, 1.000, 0.874)",
+            "textures": [
+                {
+                    "name": "Color_e0780989-e20d-495e-ba97-22f1aac67d40",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_e0780989-e20d-495e-ba97-22f1aac67d40",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_e0780989-e20d-495e-ba97-22f1aac67d40",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "h31front-5",
+            "imported": true,
+            "importSeconds": 0.1772644,
+            "vertices": 12489,
+            "triangles": 19749,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 1.0,
+            "boundsSize": "(0.358, 1.000, 0.886)",
+            "textures": [
+                {
+                    "name": "Color_c287f55c-0935-4c0d-8a10-0f79cc794f2f",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_c287f55c-0935-4c0d-8a10-0f79cc794f2f",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_c287f55c-0935-4c0d-8a10-0f79cc794f2f",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "p2-1",
+            "imported": true,
+            "importSeconds": 0.14317269999999999,
+            "vertices": 28835,
+            "triangles": 20871,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 0.99951171875,
+            "boundsSize": "(0.414, 1.000, 0.854)",
+            "textures": [
+                {
+                    "name": "Color_b6865924-ba4f-4e26-88ec-68adaf3a8a2c",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_b6865924-ba4f-4e26-88ec-68adaf3a8a2c",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_b6865924-ba4f-4e26-88ec-68adaf3a8a2c",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "p2-2",
+            "imported": true,
+            "importSeconds": 0.1409798,
+            "vertices": 29438,
+            "triangles": 20889,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 0.99951171875,
+            "boundsSize": "(0.384, 1.000, 0.849)",
+            "textures": [
+                {
+                    "name": "Color_2dc289ef-8bc8-4c26-9df4-24c9d94d6069",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_2dc289ef-8bc8-4c26-9df4-24c9d94d6069",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_2dc289ef-8bc8-4c26-9df4-24c9d94d6069",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        },
+        {
+            "name": "p2-3",
+            "imported": true,
+            "importSeconds": 0.15249459999999999,
+            "vertices": 29702,
+            "triangles": 21187,
+            "meshes": 1,
+            "materials": 1,
+            "shaders": [
+                "Shader Graphs/glTF-pbrMetallicRoughness"
+            ],
+            "heightUnits": 0.99951171875,
+            "boundsSize": "(0.452, 1.000, 0.848)",
+            "textures": [
+                {
+                    "name": "Color_cf55d702-3a2b-49fe-8593-a75f29307f23",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147838
+                },
+                {
+                    "name": "NormalGL_cf55d702-3a2b-49fe-8593-a75f29307f23",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "ARGB32",
+                    "mips": true,
+                    "memoryBytes": 44740246
+                },
+                {
+                    "name": "ORM_cf55d702-3a2b-49fe-8593-a75f29307f23",
+                    "width": 2048,
+                    "height": 2048,
+                    "format": "RGB24",
+                    "mips": true,
+                    "memoryBytes": 39147836
+                }
+            ],
+            "textureMemoryBytes": 123035920,
+            "warnings": [],
+            "errors": []
+        }
+    ]
+}

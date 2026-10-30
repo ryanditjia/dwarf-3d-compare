@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Image → 3D for Game Studio: a dwarf, four ways</title>
+<script type="module">
+import "https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js";
+customElements.get("model-viewer").meshoptDecoderLocation = "https://unpkg.com/meshoptimizer@0.22.0/meshopt_decoder.js";
+document.querySelectorAll("model-viewer[data-src]").forEach(m => {
+  // A shape-only model has no texture: show it light grey rather than glare white.
+  m.addEventListener("load", () => m.model.materials.forEach(mat => { if (!mat.pbrMetallicRoughness.baseColorTexture.texture) mat.pbrMetallicRoughness.setBaseColorFactor([.62, .62, .62, 1]); }));
+  m.src = m.dataset.src;
+});
+</script>
+<style>
+:root { --gold:#f5d64e; --fg:#e8e8e8; --muted:#9a9a9a; --line:#2a2a2a; --card:#1a1a1a; }
+* { box-sizing:border-box }
+body { font:15px/1.55 system-ui,sans-serif; background:#0f0f0f; color:var(--fg); margin:0 auto; padding:32px 24px 80px; max-width:1320px }
+h1 { font-size:28px; margin:0 0 6px } h2 { font-size:20px; margin:48px 0 12px; padding-top:16px; border-top:1px solid var(--line) } h3 { font-size:15px; margin:28px 0 2px }
+a { color:var(--gold) } .muted, .note { color:var(--muted) } .note { margin:0 0 8px; font-size:13px }
+.views { display:flex; gap:10px; margin:14px 0 } .views figure { margin:0 } .views img { width:150px; border-radius:8px; display:block } .views figcaption { font-size:12px; color:var(--muted); text-align:center }
+.verdict { background:var(--card); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:10px; padding:16px 20px; margin:20px 0 }
+.verdict ul { margin:8px 0 0; padding-left:20px } .verdict li { margin:4px 0 }
+table { border-collapse:collapse; width:100%; font-size:14px; margin:8px 0 } th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top } th { color:var(--muted); font-weight:500 }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums }
+.row { display:flex; gap:12px; flex-wrap:wrap } figure { margin:0 }
+.row figure { width:300px } model-viewer { width:300px; height:360px; background:var(--card); border-radius:10px; --poster-color:transparent }
+figcaption { color:var(--muted); font-size:12px; margin-top:4px }
+.bar { position:sticky; top:0; z-index:9; background:#0f0f0fee; padding:10px 0; display:flex; gap:6px; align-items:center; flex-wrap:wrap }
+button { background:var(--gold); color:#000; border:0; border-radius:6px; padding:6px 11px; cursor:pointer; font:inherit; font-size:13px }
+.shot { width:100%; border-radius:10px; display:block; background:#111 } .shotlabels { display:grid; grid-template-columns:repeat(4,1fr); font-size:12px; color:var(--muted); text-align:center; margin:4px 0 14px }
+.findings li { margin:8px 0 } code { background:#222; padding:1px 5px; border-radius:4px; font-size:13px }
+</style>
+
+<h1>Image → 3D for Game Studio: a dwarf, four ways</h1>
+<p class="muted">Ryandi · 30 Oct 2026 · Why: Game Studio's 3D node moved off the Tripo CLI (browser login, kept failing on cardinal) to Tripo on Fal. This page checks the new option against the old one.</p>
+
+<p>The input is one dwarf, drawn as four views (front, left, back, right) with <b>Nano Banana</b> on the Game Studio canvas:
+<a href="https://studio.argus.dev/games/da22ab81-89bb-4876-b496-6f483d5bc5e2/canvas">studio.argus.dev/games/da22ab81-89bb-4876-b496-6f483d5bc5e2/canvas</a>. Every option got the same images and a 20,000-triangle cap. Each ran 3 times; option ④ ran 5 times.</p>
+<div class="views"><figure><img src="views/front.png" alt="front view"><figcaption>front</figcaption></figure><figure><img src="views/left.png" alt="left view"><figcaption>left</figcaption></figure><figure><img src="views/back.png" alt="back view"><figcaption>back</figcaption></figure><figure><img src="views/right.png" alt="right view"><figcaption>right</figcaption></figure></div>
+
+<div class="verdict"><b>Verdict: use Tripo H3.1 multiview on Fal (②) as the default.</b>
+<ul>
+<li><b>It's the only option that gets the back right:</b> the crossed straps and chainmail from the back view. ③ and ④ only see the front, so they guess the back: the beard pokes through, with a plain skirt and no straps.</li>
+<li><b>It comes finished</b> (textured, UV-mapped, PBR) for <b>$0.30</b>. The old CLI path (①) also used the 4 views, but it returned a grey shape; colour cost another step and more credits, and it needed someone's Chrome login.</li>
+<li><b>P2 front-only (③) costs 3.7× as much</b> with the same invented back. It's worth one more try on a hard-surface subject (a chest, a weapon), where P2's cleaner shapes might matter. Otherwise drop it.</li>
+<li><b>All of them import into Unity cleanly,</b> but every model needs three fixes: turn it 90°, set its scale, and compress its textures. Details in <a href="#unity">Unity</a>.</li>
+<li><b>Runs are consistent:</b> the repeat runs of each option look nearly identical.</li>
+</ul></div>
+
+<table>
+<tr><th>Option</th><th>Input</th><th>Back</th><th>Output</th><th class="num">Tris</th><th class="num">Verts</th><th>Time</th><th>Cost / model</th></tr>
+<tr><td>① Old: Tripo Studio P2 multiview, via the Tripo CLI</td><td>4 views</td><td>✅ matches</td><td>shape only</td><td>21,278</td><td>10,771</td><td>63–101 s</td><td>100 credits (≈$0.18–0.67)</td></tr><tr><td>② New default: Tripo H3.1 multiview on Fal</td><td>4 views</td><td>✅ matches</td><td>textured · UV · PBR</td><td>19,374</td><td>12,172</td><td>145–234 s</td><td>$0.30</td></tr><tr><td>③ Tripo P2 on Fal, front only</td><td>front view</td><td>❌ invented</td><td>textured · UV · PBR</td><td>20,982</td><td>29,325</td><td>153–204 s</td><td>$1.10</td></tr><tr><td>④ Tripo H3.1 on Fal, front only</td><td>front view</td><td>❌ invented</td><td>textured · UV · PBR</td><td>19,413</td><td>12,343</td><td>149–218 s</td><td>$0.30</td></tr>
+</table>
+
+<h2>Rotate them yourself</h2>
+<div class="bar">Turn all: <button data-o="90deg">front</button><button data-o="0deg">side</button><button data-o="-90deg">back</button><button data-o="180deg">other side</button><button id="spin">spin</button>
+<label style="margin-left:8px"><input type="checkbox" id="grey"> shape only (hide textures)</label></div>
+<section><h3>① Old: Tripo Studio P2 multiview, via the Tripo CLI</h3><p class="note">4 views · 100 credits (≈$0.18–0.67) per model · 63–101 s · Shape only. Colour, UVs and PBR were a separate Texture step (+20 credits).</p><div class="row"><figure><model-viewer data-src="models/cli-p2-1.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 1 · 21,309 tris · 10,834 verts · <b>shape only</b></figcaption></figure><figure><model-viewer data-src="models/cli-p2-2.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 2 · 21,105 tris · 10,707 verts · <b>shape only</b></figcaption></figure><figure><model-viewer data-src="models/cli-p2-3.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 3 · 21,421 tris · 10,772 verts · <b>shape only</b></figcaption></figure></div></section><section><h3>② New default: Tripo H3.1 multiview on Fal</h3><p class="note">4 views · $0.30 per model · 145–234 s · Textured, UV-mapped, PBR. The only option whose back matches the back view.</p><div class="row"><figure><model-viewer data-src="models/h31-1.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 1 · 19,894 tris · 12,658 verts · textured · UV · PBR</figcaption></figure><figure><model-viewer data-src="models/h31-2.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 2 · 19,328 tris · 11,951 verts · textured · UV · PBR</figcaption></figure><figure><model-viewer data-src="models/h31-3.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 3 · 18,899 tris · 11,907 verts · textured · UV · PBR</figcaption></figure></div></section><section><h3>③ Tripo P2 on Fal, front only</h3><p class="note">front view · $1.10 per model · 153–204 s · Textured, UV-mapped, PBR. Fal’s P2 takes one image, so it invents the back.</p><div class="row"><figure><model-viewer data-src="models/p2-1.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 1 · 20,871 tris · 28,835 verts · textured · UV · PBR</figcaption></figure><figure><model-viewer data-src="models/p2-2.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 2 · 20,889 tris · 29,438 verts · textured · UV · PBR</figcaption></figure><figure><model-viewer data-src="models/p2-3.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 3 · 21,187 tris · 29,702 verts · textured · UV · PBR</figcaption></figure></div></section><section><h3>④ Tripo H3.1 on Fal, front only</h3><p class="note">front view · $0.30 per model · 149–218 s · What the H3.1 node does with only a front view wired. It invents the back too.</p><div class="row"><figure><model-viewer data-src="models/h31front-1.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 1 · 19,647 tris · 12,426 verts · textured · UV · PBR</figcaption></figure><figure><model-viewer data-src="models/h31front-2.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 2 · 19,260 tris · 12,143 verts · textured · UV · PBR</figcaption></figure><figure><model-viewer data-src="models/h31front-3.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 3 · 19,290 tris · 12,418 verts · textured · UV · PBR</figcaption></figure><figure><model-viewer data-src="models/h31front-4.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 4 · 19,118 tris · 12,238 verts · textured · UV · PBR</figcaption></figure><figure><model-viewer data-src="models/h31front-5.glb" camera-controls loading="eager" shadow-intensity="0.6" environment-image="neutral" interaction-prompt="none" camera-orbit="90deg 80deg auto"></model-viewer><figcaption>run 5 · 19,749 tris · 12,489 verts · textured · UV · PBR</figcaption></figure></div></section>
+
+<h2 id="unity">In Unity</h2>
+<p>Setup matches our games: <b>Unity 6000.3.10f1 + URP 17.3</b>, the same as rampage-client, mmo and sdk-example, plus Unity's glTF importer <code>com.unity.cloud.gltfast</code> 6.20. All 14 models were imported in batch mode and rendered under the same light. Shown left to right: ① old CLI, ② H3.1 4-view, ③ P2 front-only, ④ H3.1 front-only (run 1 of each, scaled to equal height).</p>
+<img class="shot" src="unity/turned-90.jpg" alt="Unity, front">
+<div class="shotlabels"><span>① old CLI (shape only)</span><span>② H3.1 4-view</span><span>③ P2 front-only</span><span>④ H3.1 front-only</span></div>
+<img class="shot" src="unity/turned-270.jpg" alt="Unity, back">
+<div class="shotlabels"><span>① back follows the view</span><span>② back follows the view</span><span>③ back invented</span><span>④ back invented</span></div>
+<p class="muted">As imported, before any rotation, the models face sideways. Shown: H3.1 4-view ×3, then P2 ×3.</p>
+<img class="shot" src="unity/all-h31-p2-as-imported.jpg" alt="Unity, as imported">
+
+<h3>What we'd need to handle in Unity</h3>
+<ol class="findings">
+<li><b>Imports are clean.</b> 14 of 14 imported with no warnings or errors, about 0.2 s each.</li>
+<li><b>Our Unity projects can't open a GLB yet.</b> None of them has a glTF importer. Add <code>com.unity.cloud.gltfast</code>, or have Game Studio convert to FBX before it hands the file to Unity. The old CLI's files were also mesh-compressed (meshopt), which needs <code>com.unity.meshopt.decompress</code>. That package only exists as experimental 0.3.0, because glTFast 6.20 refused the 0.1 preview. The Fal models don't need it.</li>
+<li><b>Every model faces sideways (−X).</b> Unity characters face +Z, so each needs a 90° turn on Y. Fix it once on import or in the prefab. Fal's <code>orientation</code> / <code>export_orientation</code> options might fix it at the source; untested.</li>
+<li><b>Every model is exactly 1 unit tall.</b> Tripo normalises the size rather than using real-world size, so each asset needs a deliberate scale (a dwarf ≈ 1.3 m). Fal's <code>auto_size</code> option might help; untested.</li>
+<li><b>Textures are heavy as imported.</b> Each model has three 2048² maps (colour, normal, and occlusion/roughness/metal), imported uncompressed (RGB24/ARGB32): about 56 MB of GPU memory per character. Compressing them (BC7/ASTC) or using 1024² brings that to roughly 4–17 MB. Do this before these go into a game.</li>
+<li><b>Materials use glTFast's own shader</b> (<code>glTF-pbrMetallicRoughness</code>). It looks right under URP, but production assets should be moved to the game's own shaders.</li>
+<li><b>P2 has about 2.4× the vertices of H3.1</b> at the same triangle count (28,835 vs 12,658). That means more UV seams. It's a small GPU cost and not a blocker.</li>
+<li><b>Nothing is rigged.</b> None of the outputs has a skeleton. Rig and animate in a DCC tool or Mixamo; Fal has no Tripo rigging.</li>
+</ol>
+<p><b>Opinion:</b> in Unity, ② looks closest to the concept from every side, and it's usable in a game after the turn, scale and texture fixes. ③ is just as good from the front, but its back doesn't match the design. ① can't be judged on looks without paying for its texture step, and its shape is softer than ②'s.</p>
+
+<h2>Cost</h2>
+<p>Fal bills per model with no subscription: <b>H3.1 $0.30</b> textured, <b>P2 $1.10</b>. The old path used Tripo Studio credits from a subscription. P2 multiview cost 100 credits (shape only); its Texture step cost 20 more.</p>
+<table>
+<tr><th>Tripo Studio plan</th><th class="num">$/month</th><th class="num">Credits/month</th><th class="num">$/credit</th><th class="num">1 P2 model (100)</th><th class="num">P2 + texture (120)</th><th class="num">This test (300)</th></tr>
+<tr><td>Professional, monthly</td><td class="num">$20</td><td class="num">3,000</td><td class="num">$0.0067</td><td class="num">$0.67</td><td class="num">$0.80</td><td class="num">$2.00</td></tr><tr><td>Professional, annual</td><td class="num">$13</td><td class="num">3,000</td><td class="num">$0.0043</td><td class="num">$0.43</td><td class="num">$0.52</td><td class="num">$1.30</td></tr><tr><td>Max, monthly</td><td class="num">$90</td><td class="num">25,000</td><td class="num">$0.0036</td><td class="num">$0.36</td><td class="num">$0.43</td><td class="num">$1.08</td></tr><tr><td>Max, annual</td><td class="num">$45</td><td class="num">25,000</td><td class="num">$0.0018</td><td class="num">$0.18</td><td class="num">$0.22</td><td class="num">$0.54</td></tr><tr><td>Top tier, monthly</td><td class="num">$330</td><td class="num">100,000</td><td class="num">$0.0033</td><td class="num">$0.33</td><td class="num">$0.40</td><td class="num">$0.99</td></tr>
+<tr><td><b>Fal H3.1 (for comparison)</b></td><td class="num">–</td><td class="num">–</td><td class="num">–</td><td class="num" colspan="2">$0.30, textured</td><td class="num">$0.90 (3 runs)</td></tr>
+</table>
+<p class="muted">The Tripo figures are best case, assuming every credit gets used. Credits reset each month, a plan belongs to one person's login, and that login is what kept failing on cardinal. Plan prices come from Tripo's docs as of October 2026 (their pricing page blocks automated reads), so check before buying. Spent on this test: about $5.70 on Fal and 300 Tripo credits (≈$2 on the Professional monthly plan).</p>
+
+<h2>How this was run</h2>
+<p class="muted">The Fal runs used Game Studio's own Fal adapter (main @ 584ca3a), the same code the Model node runs. The old runs used the Tripo CLI with the arguments the BB plugin used (<code>generate multiview-to-model --model tripo-p2 --param face_limit=20000</code>, then <code>task get --download</code>). Triangle and vertex counts come from the GLB files. The Unity figures come from a batch import in a throwaway project.</p>
+
+<script>
+const all = () => document.querySelectorAll("model-viewer");
+document.querySelectorAll("[data-o]").forEach(b => b.onclick = () => all().forEach(m => { m.autoRotate = false; m.cameraOrbit = b.dataset.o + " 80deg auto"; }));
+document.getElementById("spin").onclick = () => all().forEach(m => m.autoRotate = !m.autoRotate);
+document.getElementById("grey").onchange = e => all().forEach(m => m.model?.materials.forEach(mat => {
+  const pbr = mat.pbrMetallicRoughness, t = pbr.baseColorTexture;
+  if (e.target.checked) { mat._t = t.texture; t.setTexture(null); pbr.setBaseColorFactor([.72, .72, .72, 1]); }
+  else if (mat._t) { t.setTexture(mat._t); pbr.setBaseColorFactor([1, 1, 1, 1]); }
+}));
+</script>
+</html>
