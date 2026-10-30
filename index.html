@@ -37,13 +37,15 @@ button { background:var(--gold); color:#000; border:0; border-radius:6px; paddin
 <a href="https://studio.argus.dev/games/da22ab81-89bb-4876-b496-6f483d5bc5e2/canvas">studio.argus.dev/games/da22ab81-89bb-4876-b496-6f483d5bc5e2/canvas</a>. Every option got the same images and a 20,000-triangle cap. Each ran 3 times; option ④ ran 5 times.</p>
 <div class="views"><figure><img src="views/front.png" alt="front view"><figcaption>front</figcaption></figure><figure><img src="views/left.png" alt="left view"><figcaption>left</figcaption></figure><figure><img src="views/back.png" alt="back view"><figcaption>back</figcaption></figure><figure><img src="views/right.png" alt="right view"><figcaption>right</figcaption></figure></div>
 
-<div class="verdict"><b>Verdict: use Tripo H3.1 multiview on Fal (②) as the default.</b>
+<div class="verdict"><b>Verdict: H3.1 multiview (②) gets the design right, and P2 gets the mesh right. On Fal, nothing does both yet.</b> ② stays the default for now; see the last point for what to test next.
 <ul>
 <li><b>It's the only option that gets the back right:</b> the crossed straps and chainmail from the back view. ③ and ④ only see the front, so they guess the back: the beard pokes through, with a plain skirt and no straps.</li>
 <li><b>It comes finished</b> (textured, UV-mapped, PBR) for <b>$0.30</b>. The old CLI path (①) also used the 4 views, but it returned a grey shape; colour cost another step and more credits, and it needed someone's Chrome login.</li>
-<li><b>P2 front-only (③) costs 3.7× as much</b> with the same invented back. It's worth one more try on a hard-surface subject (a chest, a weapon), where P2's cleaner shapes might matter. Otherwise drop it.</li>
+<li><b>P2 builds a much better mesh</b> (①, ③): modelled eyes, braids as separate tubes, and edges that flow in loops (about 58% of the surface pairs into quads). H3.1 is an even triangle mesh: beard and braids fused into one blob, with the detail painted into the normal map (about 13% quads). That matters for anything that gets rigged and animated, or edited by hand. See <a href="#topology">Topology</a>.</li>
+<li><b>But Fal's P2 (③) only takes the front image</b>, so it invents the back. It costs 3.7× as much, and its UVs are cut into about 4,600 pieces.</li>
 <li><b>All of them import into Unity cleanly,</b> but every model needs three fixes: turn it 90°, set its scale, and compress its textures. Details in <a href="#unity">Unity</a>.</li>
-<li><b>Runs are consistent:</b> the repeat runs of each option look nearly identical.</li>
+<li><b>Runs are consistent:</b> the repeat runs of each option look nearly identical, in shape and in mesh.</li>
+<li><b>Next to test:</b> (a) ② followed by Fal's <code>tripo3d/tripo/remesh</code>, which rebuilds the mesh in quads, for about $0.30 plus a few cents; (b) Tripo's own developer API, which may run P2 multiview (the ① model) with an API key instead of a browser login. Use H3.1 as is for props and static objects. Characters that will be rigged probably need (a) or (b).</li>
 </ul></div>
 
 <table>
@@ -76,7 +78,21 @@ button { background:var(--gold); color:#000; border:0; border-radius:6px; paddin
 <li><b>P2 has about 2.4× the vertices of H3.1</b> at the same triangle count (28,835 vs 12,658). That means more UV seams. It's a small GPU cost and not a blocker.</li>
 <li><b>Nothing is rigged.</b> None of the outputs has a skeleton. Rig and animate in a DCC tool or Mixamo; Fal has no Tripo rigging.</li>
 </ol>
-<p><b>Opinion:</b> in Unity, ② looks closest to the concept from every side, and it's usable in a game after the turn, scale and texture fixes. ③ is just as good from the front, but its back doesn't match the design. ① can't be judged on looks without paying for its texture step, and its shape is softer than ②'s.</p>
+<p><b>Opinion:</b> in Unity, ② looks closest to the concept from every side, and it's usable in a game after the turn, scale and texture fixes. ③ is just as good from the front, but its back doesn't match the design. ① can't be judged on colour without paying for its texture step, but its mesh is the cleanest of the four (see Topology).</p>
+
+<h2 id="topology">Topology</h2>
+<p>Topology is how the surface is cut into triangles. It decides how well a model bends when it's rigged, how easy it is to edit, and how texture seams behave. Each mesh was measured in Blender after joining its UV seams. Below: run 1 of each option, face close-up, wireframe on. Left to right: ① old CLI P2, ② H3.1 4-view, ③ P2 front-only, ④ H3.1 front-only.</p>
+<img class="shot" src="unity/topology-faces.jpg" alt="Wireframe close-ups">
+<table>
+<tr><th>Option (average of runs)</th><th class="num">Pairs into quads</th><th class="num">Separate pieces</th><th class="num">UV islands</th><th class="num">Open edges</th><th class="num">Slivers (&lt;10°)</th><th class="num">Edge-length spread</th></tr>
+<tr><td>① Old: Tripo Studio P2 multiview, via the Tripo CLI</td><td class="num">58%</td><td class="num">25</td><td class="num">no UVs</td><td class="num">255</td><td class="num">8.2%</td><td class="num">0.73</td></tr><tr><td>② New default: Tripo H3.1 multiview on Fal</td><td class="num">13%</td><td class="num">1</td><td class="num">154</td><td class="num">19</td><td class="num">5.1%</td><td class="num">0.50</td></tr><tr><td>③ Tripo P2 on Fal, front only</td><td class="num">59%</td><td class="num">23</td><td class="num">4,654</td><td class="num">548</td><td class="num">8.2%</td><td class="num">0.81</td></tr><tr><td>④ Tripo H3.1 on Fal, front only</td><td class="num">13%</td><td class="num">1</td><td class="num">175</td><td class="num">26</td><td class="num">4.9%</td><td class="num">0.50</td></tr>
+</table>
+<ul class="findings">
+<li><b>P2 (① and ③) is built like a hand-made game model.</b> More than half the surface pairs into tidy quads, edges run in loops around the eyes, helmet rim and braids, and parts like the axe, helmet and braids are separate pieces. That's what makes a mesh bend cleanly when rigged and easy to fix by hand.</li>
+<li><b>H3.1 (② and ④) is one even, almost-closed shell of triangles</b> with no edge flow. Fine detail (braids, eye sockets, chainmail) is painted into the normal map, not modelled. It looks right in a render and is fine for props and static characters. Rigged faces and beards will deform less cleanly, and hand edits are harder.</li>
+<li><b>Fal's P2 UVs are cut into about 4,600 islands</b>, versus about 160 for H3.1. Baked textures still look right, but that many seams makes texture editing hard and is why P2 has 2.4× the vertices. The old CLI path's P2 had no UVs at all until its Texture step.</li>
+<li>All of them are clean in the basics: no degenerate triangles, few slivers, and only a handful of non-manifold edges. The open edges on P2 are the edges of its separate pieces, which is normal.</li>
+</ul>
 
 <h2>Cost</h2>
 <p>Fal bills per model with no subscription: <b>H3.1 $0.30</b> textured, <b>P2 $1.10</b>. The old path used Tripo Studio credits from a subscription. P2 multiview cost 100 credits (shape only); its Texture step cost 20 more.</p>
